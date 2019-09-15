@@ -9,9 +9,9 @@ import com.internal.tictactoe.utils.GridUtils;
  * @author sauly
  */
 public class GameRulesManager {
-	
+
 	/**
-	 * Calculate an return the designaed winner of the game
+	 * Calculate an return the designated winner of the game
 	 * @param grid the game grid to check wich player won
 	 * @param playerIdEnum the player id enum
 	 * @return the player id who has won.
@@ -32,9 +32,11 @@ public class GameRulesManager {
 			return winnerId;
 		}
 
+		winnerId = verifyWinnerByDiagonals(grid, playerIdEnum);
+
 		return winnerId;
 	}
-	
+
 	/**
 	 * Verify if a player won by checking the game grid rows
 	 * @param grid the game grid
@@ -67,7 +69,7 @@ public class GameRulesManager {
 		return PlayerIdEnum.NO_PLAYER.ordinal();
 
 	}
-	
+
 	/**
 	 * Verify if a player won by checking the game grid columns
 	 * @param grid the game grid
@@ -97,6 +99,64 @@ public class GameRulesManager {
 					}
 				}
 			}
+		}
+
+		return PlayerIdEnum.NO_PLAYER.ordinal();
+
+	}
+
+	/**
+	 * Verify if a player won by checking the game grid diagonals
+	 * @param grid the game grid
+	 * @param playerIdEnum the player id enum
+	 * @return the player id who has won for one of the diagonals match.
+	 */
+	private int verifyWinnerByDiagonals(String[][] grid, PlayerIdEnum playerIdEnum) {
+
+		String playerSymbol = null;
+
+		if(playerIdEnum.ordinal() == 1) {
+			playerSymbol = GridConstants.PLAYER_1_SYMBOL;
+		}
+		else if(playerIdEnum.ordinal() == 2) {
+			playerSymbol = GridConstants.PLAYER_2_SYMBOL;
+		}
+
+		int cellCount = 0;
+		int maximumDiagonalLength = GridUtils.getGridColumnLength(grid);
+		int diagonalCount = 0;
+
+		//Looking through the grid for the first diagonal
+		while(diagonalCount < maximumDiagonalLength) {
+
+			if(grid[diagonalCount][diagonalCount].equals(playerSymbol)) {
+				cellCount++;
+			}
+
+			if(cellCount == maximumDiagonalLength) {
+				return playerIdEnum.ordinal();
+			}
+
+			diagonalCount++;
+		}
+
+		int horizontalDiagonalCount = maximumDiagonalLength - 1;
+		int verticalDiagonalCount = 0;
+		cellCount = 0;
+
+		//Looking through the grid for the second diagonal
+		while(horizontalDiagonalCount >= 0 && verticalDiagonalCount < maximumDiagonalLength) {
+
+			if(grid[horizontalDiagonalCount][verticalDiagonalCount].equals(playerSymbol)) {
+				cellCount++;
+			}
+
+			if(cellCount == maximumDiagonalLength) {
+				return playerIdEnum.ordinal();
+			}
+
+			horizontalDiagonalCount--;
+			verticalDiagonalCount++;
 		}
 
 		return PlayerIdEnum.NO_PLAYER.ordinal();

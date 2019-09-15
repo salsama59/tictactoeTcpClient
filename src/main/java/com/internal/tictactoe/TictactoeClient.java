@@ -9,12 +9,14 @@ import com.internal.tictactoe.managers.GameRulesManager;
 import com.internal.tictactoe.utils.GridUtils;
 
 public class TictactoeClient{
+	
+	public static final int MAXLENGTH = 5;
 
 	public static void main(String[] args) {
 
 		GameRulesManager gameRulesManager = new GameRulesManager();
-		int rowLength = 4;
-		int columnLength = 4;
+		int rowLength = MAXLENGTH;
+		int columnLength = MAXLENGTH;
 		String [][] grid = new String [rowLength][columnLength];
 		initializeGrid(grid);
 		display(grid);
