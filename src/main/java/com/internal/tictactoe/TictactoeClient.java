@@ -6,11 +6,17 @@ import com.internal.tictactoe.constants.GridConstants;
 import com.internal.tictactoe.enums.CoordinateEnum;
 import com.internal.tictactoe.enums.PlayerIdEnum;
 import com.internal.tictactoe.managers.GameRulesManager;
+import com.internal.tictactoe.ui.GraphicUserInterfaceGenerator;
 import com.internal.tictactoe.utils.GridUtils;
 
-public class TictactoeClient{
-	
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+public class TictactoeClient extends Application {
+
 	public static final int MAXLENGTH = 5;
+
+	public static GraphicUserInterfaceGenerator graphicUserInterfaceGenerator;
 
 	public static void main(String[] args) {
 
@@ -20,6 +26,9 @@ public class TictactoeClient{
 		String [][] grid = new String [rowLength][columnLength];
 		initializeGrid(grid);
 		display(grid);
+		graphicUserInterfaceGenerator = new GraphicUserInterfaceGenerator(grid);
+
+		launch(args);
 		PlayerIdEnum playerIdEnum = PlayerIdEnum.NO_PLAYER;
 		String symbol = null;
 		StringBuilder stringBuilder = null;
@@ -123,4 +132,9 @@ public class TictactoeClient{
 		System.out.println(stringBuilder.toString());
 	}
 
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		graphicUserInterfaceGenerator.display(primaryStage);
+
+	}
 }
